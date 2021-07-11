@@ -1,53 +1,40 @@
-import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, View} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import Header from '../../components/Header';
 import {styles} from './style';
-import {sendRequest, showToast} from '../../utility/helpers';
-import InputText from '../../components/InputText';
-import {LIGHT_GREY} from '../../utility/colors';
-import DismissKeyboard from '../../components/DismissKeyboard';
+import {showToast} from '../../utility/helpers';
 import MyButton from '../../components/MyButton';
-import {useContext} from 'react';
-import {Store} from '../../store';
 
 let scanner = null;
 
 const ScannerScreen = ({navigation}) => {
-  const {
-    state: {
-      ui: {isLoading},
-    },
-    dispatch,
-  } = useContext(Store);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onRead = async e => {
     try {
+      setIsLoading(true);
       const res = await fetch(
         `http://143.244.148.38/api/verify/rsvp/${e.data}`,
         {method: 'POST'},
       );
 
       setTimeout(() => {
+        setIsLoading(false);
         if (!res) showToast(TIMEOUT_MESSAGE, 'long');
       }, 15000);
 
+      setIsLoading(false);
       if (res.status === 200 || res.status === 201) {
         const resJson = await res.json();
         showToast('Successful');
-        navigation.navigate('ScannerScreen');
         return;
       }
 
       showToast('Clock in failed', 'long');
     } catch (error) {
+      setIsLoading(false);
       console.log('Error while submitting', error);
       showToast(ERROR_MESSAGE, 'long');
       return;
