@@ -1,3 +1,5 @@
+import {ToastAndroid} from 'react-native';
+
 export function combineReducers(reducers) {
   let state = Object.keys(reducers).reduce(
     (acc, key) => ({...acc, [key]: reducers[key][0]}),
@@ -105,5 +107,45 @@ export function isEmpty(value) {
     value === undefined ||
     (typeof value === 'object' && Object.keys(value).length === 0) ||
     (typeof value === 'string' && value.trim().length === 0)
+  );
+}
+
+export function showToast(
+  message = '',
+  duration = 'short',
+  position = 'center',
+  xOffset = 25,
+  yOffset = 50,
+) {
+  let newPosition = '';
+  let newDuration = '';
+
+  switch (position.toLowerCase) {
+    case 'top':
+      newPosition = ToastAndroid.TOP;
+      break;
+    case 'bottom':
+      newPosition = ToastAndroid.BOTTOM;
+      break;
+    default:
+      newPosition = ToastAndroid.CENTER;
+      break;
+  }
+
+  switch (duration.toLowerCase) {
+    case 'long':
+      newDuration = ToastAndroid.LONG;
+      break;
+    default:
+      newPosition = ToastAndroid.SHORT;
+      break;
+  }
+
+  return ToastAndroid.showWithGravityAndOffset(
+    message,
+    ToastAndroid.SHORT,
+    ToastAndroid.CENTER,
+    xOffset,
+    yOffset,
   );
 }

@@ -1,5 +1,5 @@
-export const MAIN_COLOR = '#01395E';
-export const SECONDARY_COLOR = '#F25D27';
+export const MAIN_COLOR = 'purple';
+export const SECONDARY_COLOR = 'purple';
 export const LIGHT_BLUE = '#646C9A';
 export const DARK_BLUE = '#242939';
 export const ALMOST_BLACK = '#1F2231';

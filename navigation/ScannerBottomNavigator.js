@@ -1,9 +1,9 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ScannerScreen from '../screens/ScannerScreen';
 import AttendeesListScreen from '../screens/AttendeesListScreen';
 import {MAIN_COLOR, WHITE} from '../utility/colors';
+import ScannerStackNavigator from './ScannerStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,14 +12,12 @@ export default function ScannerBottomNavigator() {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
-          let iconName;
+          let iconName = '';
 
-          if (route.name === 'Scanner') {
-            iconName = focused
-              ? 'ios-information-circle'
-              : 'ios-information-circle-outline';
-          } else if (route.name === 'Attendees') {
-            iconName = focused ? 'ios-list-box' : 'ios-list';
+          if (route.name === 'ScannerStackNavigator') {
+            iconName = focused ? 'ios-scan-circle' : 'ios-scan-circle-outline';
+          } else if (route.name === 'AttendeesListScreen') {
+            iconName = focused ? 'ios-list' : 'ios-list-outline';
           }
 
           // You can return any component that you like here!
@@ -33,8 +31,8 @@ export default function ScannerBottomNavigator() {
         inactiveBackgroundColor: WHITE,
       }}>
       <Tab.Screen
-        name="ScannerScreen"
-        component={ScannerScreen}
+        name="ScannerStackNavigator"
+        component={ScannerStackNavigator}
         options={{title: 'Scanner'}}
       />
       <Tab.Screen
