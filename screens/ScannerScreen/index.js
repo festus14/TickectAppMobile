@@ -13,6 +13,7 @@ const ScannerScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onRead = async e => {
+    console.warn('code...', e.data);
     try {
       setIsLoading(true);
       const res = await fetch(
