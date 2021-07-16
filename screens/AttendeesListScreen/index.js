@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {FlatList, SafeAreaView, Text} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  Text,
+} from 'react-native';
 import AttendeesItem from '../../components/AttendeesItem';
 import Header from '../../components/Header';
 import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
@@ -21,6 +27,7 @@ const AttendeesListScreen = ({navigation}) => {
 
       setIsLoading(false);
       if (res.status === 200 || res.status === 201) {
+        showToast('Fetch successful', 'long');
         const resJson = await res.json();
         setAttendees(resJson.data);
       } else {
@@ -45,8 +52,14 @@ const AttendeesListScreen = ({navigation}) => {
         data={attendees}
         renderItem={({item}) => <AttendeesItem item={item} />}
         keyExtractor={item => item.slug}
-        onRefresh={() => fetchAttendees}
-        refreshing={isLoading}
+        refreshControl={
+          <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
+        }
+        ListEmptyComponent={
+          <Text style={{textAlign: 'center', fontSize: 16}}>
+            Pull down to refresh
+          </Text>
+        }
       />
     </SafeAreaView>
   );

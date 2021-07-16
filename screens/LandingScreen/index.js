@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, ImageBackground, Image, StatusBar, Platform} from 'react-native';
 import MyButton from '../../components/MyButton';
 import {MAIN_COLOR} from '../../utility/colors';
 import {styles} from './style';
 
 export default function LandingScreen({navigation}) {
+
+  const setUpInitialUrl = async () => {
+
+  }
+
+  useEffect(() => {
+    setUpInitialUrl()
+  }, []);
+
   return (
     <>
       <StatusBar

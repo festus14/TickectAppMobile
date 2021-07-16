@@ -1,13 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, KeyboardAvoidingView, Platform, Alert} from 'react-native';
 import DismissKeyboard from '../../components/DismissKeyboard';
 import Header from '../../components/Header';
 import InputText from '../../components/InputText';
 import MyButton from '../../components/MyButton';
-import {Store} from '../../store';
 import {LIGHT_GREY} from '../../utility/colors';
 import {validate} from '../../utility/validation';
-import {verifyUser} from '../../store/actions';
 import {styles} from './style';
 import {showToast} from '../../utility/helpers';
 import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
@@ -18,28 +16,9 @@ const VerificationScreen = ({navigation}) => {
     field: 'Code',
     value: '',
     validationRules: {
-      minLength: 4,
+      minLength: 5,
     },
   });
-  const [authError, setAuthError] = useState('');
-
-  const setError = error => {
-    setAuthError(error);
-    Alert.alert('Error', error);
-
-    setTimeout(() => {
-      setAuthError('');
-    }, 5000);
-  };
-
-  const setSuccess = message => {
-    setAuthError(message);
-    Alert.alert('Success', message);
-
-    setTimeout(() => {
-      setAuthError('');
-    }, 5000);
-  };
 
   const goBack = () => navigation.goBack();
 
@@ -63,7 +42,9 @@ const VerificationScreen = ({navigation}) => {
         setIsLoading(false);
         if (res.status === 200 || res.status === 201) {
           const resJson = await res.json();
+          console.warn('ResJson...', resJson);
           showToast('Successful');
+          // Alert.alert('Success')
           navigation.navigate('ScannerScreen');
           return;
         }

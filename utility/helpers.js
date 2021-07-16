@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ToastAndroid} from 'react-native';
 
 export function combineReducers(reducers) {
@@ -148,4 +149,23 @@ export function showToast(
     xOffset,
     yOffset,
   );
+}
+
+export async function setBaseUrl(url) {
+  try {
+    await AsyncStorage.setItem('@base_url', url);
+  } catch (e) {
+    console.log('Error in setting base url', e);
+  }
+}
+
+export async function getBaseUrl() {
+  try {
+    const url = await AsyncStorage.getItem('@base_url');
+    if (!isEmpty(url)) return url;
+    return 'http://143.244.148.38/api/';
+  } catch (e) {
+    console.log('Error in getting base url', e);
+    return 'http://143.244.148.38/api/';
+  }
 }
