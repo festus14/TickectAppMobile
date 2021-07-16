@@ -4,7 +4,7 @@ import DismissKeyboard from '../../components/DismissKeyboard';
 import Header from '../../components/Header';
 import InputText from '../../components/InputText';
 import MyButton from '../../components/MyButton';
-import {LIGHT_GREY} from '../../utility/colors';
+import {LIGHTER_GREY, LIGHT_GREY} from '../../utility/colors';
 import {ERROR_MESSAGE} from '../../utility/constants';
 import {setBaseUrl, showToast} from '../../utility/helpers';
 import {styles} from './style';
@@ -66,7 +66,7 @@ const SettingsScreen = ({navigation}) => {
               />
               <MyButton
                 text="Reset"
-                style={{...styles.btn, backgroundColor: LIGHT_GREY}}
+                style={{...styles.btn, backgroundColor: LIGHTER_GREY}}
                 onPress={() => setUrlHandler('')}
               />
             </View>
