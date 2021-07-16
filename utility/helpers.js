@@ -153,9 +153,12 @@ export function showToast(
 
 export async function setBaseUrl(url) {
   try {
-    await AsyncStorage.setItem('@base_url', url);
+    if (!isEmpty(url)) await AsyncStorage.setItem('@base_url', url);
+    else await AsyncStorage.setItem('@base_url', 'http://143.244.148.38/api/');
+    return true;
   } catch (e) {
     console.log('Error in setting base url', e);
+    return false;
   }
 }
 

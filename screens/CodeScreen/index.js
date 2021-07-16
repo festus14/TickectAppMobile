@@ -7,7 +7,7 @@ import MyButton from '../../components/MyButton';
 import {LIGHT_GREY} from '../../utility/colors';
 import {validate} from '../../utility/validation';
 import {styles} from './style';
-import {showToast} from '../../utility/helpers';
+import {getBaseUrl, showToast} from '../../utility/helpers';
 import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
 
 const VerificationScreen = ({navigation}) => {
@@ -29,10 +29,10 @@ const VerificationScreen = ({navigation}) => {
     } else {
       try {
         setIsLoading(true);
-        const res = await fetch(
-          `http://143.244.148.38/api/verify/rsvp/${code.value}`,
-          {method: 'POST'},
-        );
+        const url = await getBaseUrl();
+        const res = await fetch(`${url}api/verify/rsvp/${code.value}`, {
+          method: 'POST',
+        });
 
         setTimeout(() => {
           setIsLoading(false);

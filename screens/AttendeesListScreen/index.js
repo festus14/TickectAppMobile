@@ -9,7 +9,7 @@ import {
 import AttendeesItem from '../../components/AttendeesItem';
 import Header from '../../components/Header';
 import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
-import {showToast} from '../../utility/helpers';
+import {getBaseUrl, showToast} from '../../utility/helpers';
 
 const AttendeesListScreen = ({navigation}) => {
   const [attendees, setAttendees] = useState([]);
@@ -18,7 +18,8 @@ const AttendeesListScreen = ({navigation}) => {
   const fetchAttendees = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch('http://143.244.148.38/api/guests/in/1');
+      const url = await getBaseUrl();
+      const res = await fetch(`${url}guests/in/1`);
 
       setTimeout(() => {
         setIsLoading(false);
@@ -56,7 +57,7 @@ const AttendeesListScreen = ({navigation}) => {
           <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
         }
         ListEmptyComponent={
-          <Text style={{textAlign: 'center', fontSize: 16}}>
+          <Text style={{textAlign: 'center', fontSize: 15, marginTop: 10}}>
             Pull down to refresh
           </Text>
         }

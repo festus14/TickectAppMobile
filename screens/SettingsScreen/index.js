@@ -5,7 +5,8 @@ import Header from '../../components/Header';
 import InputText from '../../components/InputText';
 import MyButton from '../../components/MyButton';
 import {LIGHT_GREY} from '../../utility/colors';
-import {setBaseUrl} from '../../utility/helpers';
+import {ERROR_MESSAGE} from '../../utility/constants';
+import {setBaseUrl, showToast} from '../../utility/helpers';
 import {styles} from './style';
 
 const SettingsScreen = ({navigation}) => {
@@ -17,10 +18,15 @@ const SettingsScreen = ({navigation}) => {
     },
   });
 
-  const setUrlHandler = async () => {
+  const setUrlHandler = async value => {
     try {
-      await setBaseUrl(url.value);
+      let res = await setBaseUrl(value);
+      if (res) {
+        showToast('Successful', 'long');
+        navigation.navigate('ScannerStackNavigator');
+      } else showToast(ERROR_MESSAGE, 'long');
     } catch (error) {
+      showToast(ERROR_MESSAGE, 'long');
       console.log('Setting url failed', error);
     }
   };
@@ -34,9 +40,9 @@ const SettingsScreen = ({navigation}) => {
           behavior={Platform.OS === 'ios' ? 'padding' : null}
           style={styles.container}>
           <View style={styles.form}>
-            <Text style={styles.urlText}>Enter the url on the ticket</Text>
+            <Text style={styles.urlText}>Enter new url</Text>
             <InputText
-              placeholder="Enter ticket url"
+              placeholder="Enter url"
               placeholderTextColor={LIGHT_GREY}
               containerStyle={styles.containerStyle}
               autoCorrect={false}
@@ -46,12 +52,24 @@ const SettingsScreen = ({navigation}) => {
               autoCapitalize="none"
               returnKeyType="go"
             />
-            <MyButton
-              text="Save"
-              isLoading={isLoading}
-              style={styles.btn}
-              onPress={setUrlHandler}
-            />
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 10,
+              }}>
+              <MyButton
+                text="Save"
+                style={styles.btn}
+                onPress={() => setUrlHandler(url.value)}
+              />
+              <MyButton
+                text="Reset"
+                style={{...styles.btn, backgroundColor: LIGHT_GREY}}
+                onPress={() => setUrlHandler('')}
+              />
+            </View>
           </View>
         </KeyboardAvoidingView>
       </DismissKeyboard>

@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
   btn: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: '45%',
   },
   loader: {
     justifyContent: 'center',

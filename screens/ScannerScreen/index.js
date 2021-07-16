@@ -4,7 +4,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import Header from '../../components/Header';
 import {styles} from './style';
-import {showToast} from '../../utility/helpers';
+import {getBaseUrl, showToast} from '../../utility/helpers';
 import MyButton from '../../components/MyButton';
 
 let scanner = null;
@@ -16,10 +16,10 @@ const ScannerScreen = ({navigation}) => {
     console.warn('code...', e.data);
     try {
       setIsLoading(true);
-      const res = await fetch(
-        `http://143.244.148.38/api/verify/rsvp/${e.data}`,
-        {method: 'POST'},
-      );
+      const url = await getBaseUrl();
+      const res = await fetch(`${url}api/verify/rsvp/${e.data}`, {
+        method: 'POST',
+      });
 
       setTimeout(() => {
         setIsLoading(false);
