@@ -83,4 +83,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     paddingLeft: 10,
   },
+  topBar: {
+    marginVertical: 12,
+  },
 });

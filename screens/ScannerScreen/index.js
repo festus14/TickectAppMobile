@@ -50,6 +50,7 @@ const ScannerScreen = ({navigation}) => {
         onRead={onRead}
         flashMode={RNCamera.Constants.FlashMode.auto}
         reactivate={true}
+        reactivateTimeout={3000}
         showMarker={true}
         ref={node => (scanner = node)}
         bottomContent={
@@ -64,7 +65,6 @@ const ScannerScreen = ({navigation}) => {
             }}>
             <MyButton
               text="Enter Code"
-              isLoading={isLoading}
               style={styles.btn}
               onPress={() => navigation.navigate('CodeScreen')}
             />

@@ -5,21 +5,37 @@ import {
   RefreshControl,
   SafeAreaView,
   Text,
+  View,
 } from 'react-native';
 import AttendeesItem from '../../components/AttendeesItem';
 import Header from '../../components/Header';
+import TopBar from '../../components/TopBar';
 import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
 import {getBaseUrl, showToast} from '../../utility/helpers';
+import {styles} from './style';
 
 const AttendeesListScreen = ({navigation}) => {
   const [attendees, setAttendees] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [position, setPosition] = useState('left');
+  const [guests, setGuests] = useState('guests/in/');
+
+  const setPositionHandler = async pos => {
+    setPosition(pos);
+    if (pos === 'left') setGuests('guests/in/');
+    else setGuests('guests/');
+  };
+
+  useEffect(() => {
+    setPositionHandler('left');
+  }, []);
+
   const fetchAttendees = async () => {
     try {
       setIsLoading(true);
       const url = await getBaseUrl();
-      const res = await fetch(`${url}guests/in/1`);
+      const res = await fetch(`${url}${guests}1`);
 
       setTimeout(() => {
         setIsLoading(false);
@@ -43,25 +59,38 @@ const AttendeesListScreen = ({navigation}) => {
 
   useEffect(() => {
     fetchAttendees();
-  }, []);
+  }, [guests]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <Header title="Attendees" />
 
-      <FlatList
-        data={attendees}
-        renderItem={({item}) => <AttendeesItem item={item} />}
-        keyExtractor={item => item.slug}
-        refreshControl={
-          <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
-        }
-        ListEmptyComponent={
-          <Text style={{textAlign: 'center', fontSize: 15, marginTop: 10}}>
-            Pull down to refresh
-          </Text>
-        }
+      <TopBar
+        style={styles.topBar}
+        tabBtn={styles.tabBtn}
+        leftText="Present"
+        rightText="All"
+        position={position}
+        setLeftPosition={setPositionHandler}
+        setRightPosition={setPositionHandler}
       />
+
+      <View style={{paddingBottom: 150}}>
+        <FlatList
+          data={attendees}
+          renderItem={({item}) => <AttendeesItem item={item} />}
+          keyExtractor={item => item.slug}
+          refreshControl={
+            <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
+          }
+          ListEmptyComponent={
+            <Text style={{textAlign: 'center', fontSize: 15, marginTop: 10}}>
+              Pull down to refresh
+            </Text>
+          }
+          ListFooterComponent={<View style={{marginBottom: 25}} />}
+        />
+      </View>
     </SafeAreaView>
   );
 };
