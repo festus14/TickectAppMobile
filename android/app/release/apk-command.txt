@@ -1,2 +1,2 @@
-java -jar bundletool-all-1.3.0.jar build-apks --bundle=app-release.aab --output=mitchelDavid.apks --ks=david2021.jks --ks-pass=pass:David2021 --ks-key-alias=David2021 --key-pass=pass:David2021 --mode=universal
+java -jar bundletool-all-1.7.0.jar build-apks --bundle=app-release.aab --output=mitchelDavid.apks --ks=david2021.jks --ks-pass=pass:David2021 --ks-key-alias=David2021 --key-pass=pass:David2021 --mode=universal
 
