@@ -63,7 +63,7 @@ const SettingsScreen = ({navigation}) => {
           <View style={styles.form}>
             <Text style={styles.urlText}>Enter new url</Text>
             <InputText
-              placeholder="@example http://143.244.148.38/api/"
+              placeholder="@example https://michelle-david/api/"
               placeholderTextColor={LIGHT_GREY}
               containerStyle={styles.containerStyle}
               autoCorrect={false}

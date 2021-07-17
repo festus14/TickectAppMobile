@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNSecureKeyStore, {ACCESSIBLE} from 'react-native-secure-key-store';
 import {ToastAndroid} from 'react-native';
 import {API_URL} from './constants';
 
@@ -154,8 +154,11 @@ export function showToast(
 
 export async function setBaseUrl(url) {
   try {
-    await AsyncStorage.setItem('@base_url', url);
-    showToast('Setting base url successful');
+    let res = await RNSecureKeyStore.set('@base_url', url, {
+      accessible: ACCESSIBLE.WHEN_UNLOCKED,
+    });
+    console.warn('Set url Res...', res);
+    await showToast('Setting base url successful');
     return true;
   } catch (e) {
     showToast('Setting base url failed, try again', 'long');
@@ -165,7 +168,7 @@ export async function setBaseUrl(url) {
 
 export async function getBaseUrl() {
   try {
-    const url = await AsyncStorage.getItem('@base_url');
+    const url = await RNSecureKeyStore.get('@base_url');
     if (!isEmpty(url)) return url;
     return API_URL;
   } catch (e) {
