@@ -13,7 +13,7 @@ export const SCALE = Math.round(
 export const API_URL = 'https://api.boxin.ng/api/v1';
 
 export const ERROR_MESSAGE =
-  'Something went wrong, please your internet and try again!';
+  'Something went wrong, please check your internet and try again!';
 
 export const TIMEOUT_MESSAGE =
   'Request timeout, please your internet and try again!';
