@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ToastAndroid} from 'react-native';
+import {API_URL} from './constants';
 
 export function combineReducers(reducers) {
   let state = Object.keys(reducers).reduce(
@@ -113,7 +114,7 @@ export function isEmpty(value) {
 
 export function showToast(
   message = '',
-  duration = 'short',
+  duration = 'long',
   position = 'center',
   xOffset = 25,
   yOffset = 50,
@@ -153,11 +154,11 @@ export function showToast(
 
 export async function setBaseUrl(url) {
   try {
-    if (!isEmpty(url)) await AsyncStorage.setItem('@base_url', url);
-    else await AsyncStorage.setItem('@base_url', 'http://143.244.148.38/api/');
+    await AsyncStorage.setItem('@base_url', url);
+    showToast('Setting base url successful');
     return true;
   } catch (e) {
-    console.log('Error in setting base url', e);
+    showToast('Setting base url failed, try again', 'long');
     return false;
   }
 }
@@ -166,9 +167,8 @@ export async function getBaseUrl() {
   try {
     const url = await AsyncStorage.getItem('@base_url');
     if (!isEmpty(url)) return url;
-    return 'http://143.244.148.38/api/';
+    return API_URL;
   } catch (e) {
-    console.log('Error in getting base url', e);
-    return 'http://143.244.148.38/api/';
+    return API_URL;
   }
 }

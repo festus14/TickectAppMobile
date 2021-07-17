@@ -8,7 +8,7 @@ import {LIGHT_GREY} from '../../utility/colors';
 import {validate} from '../../utility/validation';
 import {styles} from './style';
 import {getBaseUrl, showToast} from '../../utility/helpers';
-import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
+import {INVALID_URL, TIMEOUT_MESSAGE} from '../../utility/constants';
 
 const VerificationScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ const VerificationScreen = ({navigation}) => {
       try {
         setIsLoading(true);
         const url = await getBaseUrl();
-        const res = await fetch(`${url}api/verify/rsvp/${code.value}`, {
+        const res = await fetch(`${url}verify/rsvp/${code.value}`, {
           method: 'POST',
         });
 
@@ -42,9 +42,7 @@ const VerificationScreen = ({navigation}) => {
         setIsLoading(false);
         if (res.status === 200 || res.status === 201) {
           const resJson = await res.json();
-          console.warn('ResJson...', resJson);
           showToast('Successful');
-          // Alert.alert('Success')
           navigation.navigate('ScannerScreen');
           return;
         }
@@ -53,7 +51,7 @@ const VerificationScreen = ({navigation}) => {
       } catch (error) {
         setIsLoading(false);
         console.log('Error while submitting', error);
-        showToast(ERROR_MESSAGE, 'long');
+        Alert.alert('Error', INVALID_URL);
         return;
       }
     }

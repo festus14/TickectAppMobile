@@ -10,7 +10,11 @@ import {
 import AttendeesItem from '../../components/AttendeesItem';
 import Header from '../../components/Header';
 import TopBar from '../../components/TopBar';
-import {ERROR_MESSAGE, TIMEOUT_MESSAGE} from '../../utility/constants';
+import {
+  ERROR_MESSAGE,
+  INVALID_URL,
+  TIMEOUT_MESSAGE,
+} from '../../utility/constants';
 import {getBaseUrl, showToast} from '../../utility/helpers';
 import {styles} from './style';
 
@@ -48,11 +52,11 @@ const AttendeesListScreen = ({navigation}) => {
         const resJson = await res.json();
         setAttendees(resJson.data);
       } else {
-        showToast(ERROR_MESSAGE);
+        Alert.alert('Error', ERROR_MESSAGE);
       }
     } catch (e) {
       setIsLoading(false);
-      showToast(ERROR_MESSAGE);
+      Alert.alert('Error', INVALID_URL);
       console.log('Error in fetching attendees', e);
     }
   };
@@ -80,6 +84,7 @@ const AttendeesListScreen = ({navigation}) => {
           data={attendees}
           renderItem={({item}) => <AttendeesItem item={item} />}
           keyExtractor={item => item.slug}
+          contentContainerStyle={styles.scrollView}
           refreshControl={
             <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
           }

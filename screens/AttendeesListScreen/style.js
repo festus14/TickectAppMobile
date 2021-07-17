@@ -86,4 +86,8 @@ export const styles = StyleSheet.create({
   topBar: {
     marginVertical: 12,
   },
+  scrollView: {
+    flex: 1,
+    height: SCREEN_HEIGHT,
+  },
 });

@@ -10,10 +10,13 @@ export const SCALE = Math.round(
   PixelRatio.roundToNearestPixel(SCREEN_WIDTH / 320),
 );
 
-export const API_URL = 'https://api.boxin.ng/api/v1';
+export const API_URL = 'http://143.244.148.38/api/';
 
 export const ERROR_MESSAGE =
   'Something went wrong, please check your internet and try again!';
 
 export const TIMEOUT_MESSAGE =
   'Request timeout, please your internet and try again!';
+
+export const INVALID_URL =
+  'Invalid base url, please go to settings and change or reset the url';
