@@ -42,10 +42,10 @@ export default function AttendeesItem({item}) {
 const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH * 0.9,
-    height: SCREEN_HEIGHT * 0.12,
+    height: SCREEN_HEIGHT * 0.11,
     justifyContent: 'space-around',
     alignItems: 'flex-start',
-    marginTop: 6,
+    marginTop: 8,
     alignSelf: 'center',
     paddingHorizontal: 10,
     backgroundColor: '#fff',

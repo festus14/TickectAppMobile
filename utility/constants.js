@@ -10,7 +10,7 @@ export const SCALE = Math.round(
   PixelRatio.roundToNearestPixel(SCREEN_WIDTH / 320),
 );
 
-export const API_URL = 'https://michelle-david/api/';
+export const API_URL = 'https://michelle-david.space/api/';
 
 export const ERROR_MESSAGE =
   'Something went wrong, please check your internet and try again!';

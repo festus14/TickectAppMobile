@@ -157,7 +157,6 @@ export async function setBaseUrl(url) {
     let res = await RNSecureKeyStore.set('@base_url', url, {
       accessible: ACCESSIBLE.WHEN_UNLOCKED,
     });
-    console.warn('Set url Res...', res);
     await showToast('Setting base url successful');
     return true;
   } catch (e) {

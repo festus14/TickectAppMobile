@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import AttendeesItem from '../../components/AttendeesItem';
 import Header from '../../components/Header';
+import InputText from '../../components/InputText';
 import TopBar from '../../components/TopBar';
+import VirtualizedView from '../../components/VirtualizedView';
 import {
   ERROR_MESSAGE,
   INVALID_URL,
@@ -20,10 +22,27 @@ import {styles} from './style';
 
 const AttendeesListScreen = ({navigation}) => {
   const [attendees, setAttendees] = useState([]);
+  const [filteredAttendees, setFilteredAttendees] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const [position, setPosition] = useState('left');
   const [guests, setGuests] = useState('guests/in/');
+  const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    const filtered = attendees.filter(elem => {
+      if (
+        (
+          (elem?.name?.toLowerCase() ?? '') +
+          (elem?.email?.toLowerCase() ?? '') +
+          (elem?.phone?.toLowerCase() ?? '')
+        ).includes(searchText.toLowerCase())
+      )
+        return elem;
+    });
+
+    if (!filtered.length && searchText.length) showToast('Not found', 'long');
+    setFilteredAttendees(filtered);
+  }, [searchText]);
 
   const setPositionHandler = async pos => {
     setPosition(pos);
@@ -69,25 +88,35 @@ const AttendeesListScreen = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <Header title="Attendees" />
 
-      <TopBar
-        style={styles.topBar}
-        tabBtn={styles.tabBtn}
-        leftText="Present"
-        rightText="All"
-        position={position}
-        setLeftPosition={setPositionHandler}
-        setRightPosition={setPositionHandler}
-      />
+      <View style={styles.head}>
+        <TopBar
+          style={styles.topBar}
+          tabBtn={styles.tabBtn}
+          leftText="Present"
+          rightText="All"
+          position={position}
+          setLeftPosition={setPositionHandler}
+          setRightPosition={setPositionHandler}
+        />
 
-      <View style={{paddingBottom: 150}}>
+        <InputText
+          containerStyle={styles.containerStyle}
+          inputStyle={styles.inputStyle}
+          titleStyle={styles.titleStyle}
+          placeholder="Search Guests List"
+          onChangeText={input => setSearchText(input)}
+        />
+      </View>
+
+      <VirtualizedView
+        refreshControl={
+          <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
+        }>
         <FlatList
-          data={attendees}
+          data={filteredAttendees.length ? filteredAttendees : attendees}
           renderItem={({item}) => <AttendeesItem item={item} />}
           keyExtractor={item => item.slug}
           contentContainerStyle={styles.scrollView}
-          refreshControl={
-            <RefreshControl onRefresh={fetchAttendees} refreshing={isLoading} />
-          }
           ListEmptyComponent={
             <Text style={{textAlign: 'center', fontSize: 15, marginTop: 10}}>
               Pull down to refresh
@@ -95,7 +124,7 @@ const AttendeesListScreen = ({navigation}) => {
           }
           ListFooterComponent={<View style={{marginBottom: 25}} />}
         />
-      </View>
+      </VirtualizedView>
     </SafeAreaView>
   );
 };

@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {Alert, SafeAreaView, View} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import Header from '../../components/Header';
 import {styles} from './style';
 import {getBaseUrl, showToast} from '../../utility/helpers';
 import MyButton from '../../components/MyButton';
+import {INVALID_URL, TIMEOUT_MESSAGE} from '../../utility/constants';
 
 let scanner = null;
 
@@ -13,11 +14,10 @@ const ScannerScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onRead = async e => {
-    console.warn('code...', e.data);
     try {
       setIsLoading(true);
       const url = await getBaseUrl();
-      const res = await fetch(`${url}api/verify/rsvp/${e.data}`, {
+      const res = await fetch(`${url}verify/rsvp/${e.data}`, {
         method: 'POST',
       });
 
@@ -37,7 +37,7 @@ const ScannerScreen = ({navigation}) => {
     } catch (error) {
       setIsLoading(false);
       console.log('Error while submitting', error);
-      showToast(ERROR_MESSAGE, 'long');
+      Alert.alert('Error', INVALID_URL);
       return;
     }
   };

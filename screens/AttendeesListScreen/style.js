@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {MAIN_COLOR, SECONDARY_COLOR} from '../../utility/colors';
-import {SCREEN_HEIGHT} from '../../utility/constants';
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../utility/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -84,10 +84,35 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   topBar: {
-    marginVertical: 12,
+    margin: 0,
+    padding: 0,
+  },
+  tabBtn: {
+    width: 76,
+    height: SCREEN_HEIGHT * 0.04,
+    borderTopRightRadius: 40,
+    borderBottomRightRadius: 40,
+    margin: 0,
+    padding: 0,
   },
   scrollView: {
     flex: 1,
     height: SCREEN_HEIGHT,
+  },
+  head: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignItems: 'baseline',
+    padding: 10,
+  },
+  containerStyle: {
+    width: SCREEN_WIDTH * 0.50,
+    height: SCREEN_HEIGHT * 0.045,
+    margin: 0,
+    padding: 0,
+  },
+  inputStyle: {
+    margin: 0,
+    padding: 0,
   },
 });
